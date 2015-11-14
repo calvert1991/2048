@@ -26,15 +26,17 @@ def getchar(matrix):
                 if matrix[row][coloumn] != 0:
                     list_row[row].append(matrix[row][coloumn])
                 coloumn += 1
+            # print("list_row = ", list_row[row])
             count = 0
             while len(list_row[row]) >= 2:
                 if list_row[row][0] == list_row[row][1]:
-                    matrix[row][count] = list_row[0] * 2
+                    matrix[row][count] = list_row[row][0] * 2
                     list_row[row].pop(0)
-                    list_row[row].pop(1)
+                    # list_row[row].pop(1)
+                    list_row[row].pop(0)
                     count += 1
                 else:
-                    matrix[row][count] = list_row[0]
+                    matrix[row][count] = list_row[row][0]
                     list_row[row].pop(0)
                     count += 1
             if len(list_row[row]) > 0:
@@ -42,12 +44,13 @@ def getchar(matrix):
                 count += 1
             for left in range(count, 4):
                 matrix[row][left] = 0
+            coloumn = 0
             row += 1
     elif direction == "d":
         row = 0
         coloumn = 3
         while row < 4:
-            list_row[row] = []
+            list_row.append([])
             while coloumn >= 0:
                 if matrix[row][coloumn] != 0:
                     list_row[row].append(matrix[row][coloumn])
@@ -55,12 +58,12 @@ def getchar(matrix):
             count = 3
             while len(list_row[row]) >= 2:
                 if list_row[row][0] == list_row[row][1]:
-                    matrix[row][count] = list_row[0] * 2
+                    matrix[row][count] = list_row[row][0] * 2
                     list_row[row].pop(0)
-                    list_row[row].pop(1)
+                    list_row[row].pop(0)
                     count -= 1
                 else:
-                    matrix[row][count] = list_row[0]
+                    matrix[row][count] = list_row[row][0]
                     list_row[row].pop(0)
                     count -= 1
             if len(list_row[row]) > 0:
@@ -68,6 +71,7 @@ def getchar(matrix):
                 count -= 1
             for left in range(count, -1, -1):
                 matrix[row][left] = 0
+            coloumn = 3
             row += 1
     elif direction == "w":
         coloumn = 0
@@ -94,6 +98,7 @@ def getchar(matrix):
                 count += 1
             for left in range(count, 4):
                 matrix[left][coloumn] = 0
+            row = 0
             coloumn += 1
     elif direction == "s":
         coloumn = 0
@@ -109,7 +114,7 @@ def getchar(matrix):
                 if list_coloumn[coloumn][0] == list_coloumn[coloumn][1]:
                     matrix[coloumn][count] = list_coloumn[0] * 2
                     list_coloumn[coloumn].pop(0)
-                    list_coloumn[coloumn].pop(1)
+                    list_coloumn[coloumn].pop(0)
                     count -= 1
                 else:
                     matrix[coloumn][count] = list_coloumn[0]
@@ -120,18 +125,37 @@ def getchar(matrix):
                 count -= 1
             for left in range(count, -1, -1):
                 matrix[row][left] = 0
+            row = 3
             coloumn += 1
 
 
 
 
+"""
+bug look like:
+input direction: w, UP; s, Down; d, Right; a, Left   a
+[8, 4, 0, 0]
+[4, 2, 0, 0]
+[8, 2, 0, 2]
+[4, 2, 0, 0]
+input direction: w, UP; s, Down; d, Right; a, Left   a
+Game is over
+"""
 
-
-
+# fill of bugs, Fix me
 def isOver(matrix):  ## Need fix the magic number
-    if matrix.count(0) == 0:
-        for row in range(0,2):
-            for coloumn in range(0,2):
+    ExistZero = True ## the matrix exist zero items
+    for row in range(0,4): # not the range(0,3)
+        # if matrix[row].count(0) != 0:
+        for coloumn in range(0,4):
+            if matrix[row][coloumn] == 0:
+                ExistZero = True
+                break
+        ExistZero = False
+
+    if ExistZero == False:
+        for row in range(0,3):
+            for coloumn in range(0,3):
                 if matrix[row][coloumn] == matrix[row][coloumn+1]:
                     return False
                 if matrix[row][coloumn] == matrix[row+1][coloumn]:
@@ -146,9 +170,18 @@ def isOver(matrix):  ## Need fix the magic number
 
 
 def insert(matrix):
+    ExistZero = True ## the matrix exist zero items
+    for row in range(0,4): # not the range(0,3)
+        for coloumn in range(0,4):
+            if matrix[row][coloumn] == 0:
+                ExistZero = True
+                break
+            ExistZero = False
+    if ExistZero == False:
+        return None
     x = random.randint(0,3)
     y = random.randint(0,3)
-    while matrix[x][y] != 0:
+    while matrix[x][y] != 0: ## 如何数组满了的话，这个不就是死循环了吗
         x = random.randint(0,3)
         y = random.randint(0,3)
     matrix[x][y] = 2
