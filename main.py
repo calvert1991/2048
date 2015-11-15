@@ -227,7 +227,7 @@ def play():
         display(matrix)
         getchar(matrix)
         insert(matrix)
-    display() ## display the last one
+    display(matrix) ## display the last one
 
     print("Game is over")
 
