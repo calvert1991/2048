@@ -77,24 +77,25 @@ def getchar(matrix):
         coloumn = 0
         row = 0
         while coloumn < 4:
-            list_coloumn[coloumn] = []
+            list_coloumn.append([])
             while row < 4:
-                if matrix[coloumn][row] != 0:
-                    list_coloumn[coloumn].append(matrix[coloumn][row])
+                if matrix[row][coloumn] != 0:
+                    list_coloumn[coloumn].append(matrix[row][coloumn])
                 row += 1
+            # print(list_coloumn[coloumn])
             count = 0
             while len(list_coloumn[coloumn]) >= 2:
                 if list_coloumn[coloumn][0] == list_coloumn[coloumn][1]:
-                    matrix[coloumn][count] = list_coloumn[0] * 2
+                    matrix[count][coloumn] = list_coloumn[coloumn][0] * 2
                     list_coloumn[coloumn].pop(0)
-                    list_coloumn[coloumn].pop(1)
+                    list_coloumn[coloumn].pop(0)
                     count += 1
                 else:
-                    matrix[coloumn][count] = list_coloumn[0]
+                    matrix[count][coloumn] = list_coloumn[coloumn][0]
                     list_coloumn[coloumn].pop(0)
                     count += 1
             if len(list_coloumn[coloumn]) > 0:
-                matrix[coloumn][count] = list_coloumn[coloumn][0]
+                matrix[count][coloumn] = list_coloumn[coloumn][0]
                 count += 1
             for left in range(count, 4):
                 matrix[left][coloumn] = 0
@@ -104,27 +105,27 @@ def getchar(matrix):
         coloumn = 0
         row = 3
         while coloumn < 4:
-            list_coloumn[coloumn] = []
+            list_coloumn.append([])
             while row >= 0:
-                if matrix[coloumn][row] != 0:
-                    list_coloumn[coloumn].append(matrix[coloumn][row])
+                if matrix[row][coloumn] != 0:
+                    list_coloumn[coloumn].append(matrix[row][coloumn])
                 row -= 1
             count = 3
             while len(list_coloumn[coloumn]) >= 2:
                 if list_coloumn[coloumn][0] == list_coloumn[coloumn][1]:
-                    matrix[coloumn][count] = list_coloumn[0] * 2
+                    matrix[count][coloumn] = list_coloumn[coloumn][0] * 2
                     list_coloumn[coloumn].pop(0)
                     list_coloumn[coloumn].pop(0)
                     count -= 1
                 else:
-                    matrix[coloumn][count] = list_coloumn[0]
+                    matrix[count][coloumn] = list_coloumn[coloumn][0]
                     list_coloumn[coloumn].pop(0)
                     count -= 1
             if len(list_coloumn[coloumn]) > 0:
-                matrix[coloumn][count] = list_coloumn[coloumn][0]
+                matrix[count][coloumn] = list_coloumn[coloumn][0]
                 count -= 1
             for left in range(count, -1, -1):
-                matrix[row][left] = 0
+                matrix[left][coloumn] = 0
             row = 3
             coloumn += 1
 
@@ -170,15 +171,15 @@ def isOver(matrix):  ## Need fix the magic number
 
 
 def insert(matrix):
-    ExistZero = True ## the matrix exist zero items
-    for row in range(0,4): # not the range(0,3)
-        for coloumn in range(0,4):
-            if matrix[row][coloumn] == 0:
-                ExistZero = True
-                break
-            ExistZero = False
-    if ExistZero == False:
-        return None
+    # ExistZero = True ## the matrix exist zero items
+    # for row in range(0,4): # not the range(0,3)
+        # for coloumn in range(0,4):
+            # if matrix[row][coloumn] == 0:
+                # ExistZero = True
+                # break
+            # ExistZero = False
+    # if ExistZero == False:
+        # return None
     x = random.randint(0,3)
     y = random.randint(0,3)
     while matrix[x][y] != 0: ## 如何数组满了的话，这个不就是死循环了吗
