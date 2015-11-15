@@ -6,11 +6,13 @@
     2015年 11月 14日 星期六 10:41:06 CST
     2015年 11月 14日 星期六 11:46:04 CST
     2015年 11月 14日 星期六 13:13:05 CST
+    2015年 11月 15日 星期日 18:33:31 CST
 """
 import random
+import os
 
 def getchar(matrix):
-    direction = input("input direction: w, UP; s, Down; d, Right; a, Left   ")
+    direction = input("input direction: UP(w),Down(s),Right(d),Left(a),Quit(q) ")
     list_row = []
     list_coloumn = []
     """
@@ -128,20 +130,16 @@ def getchar(matrix):
                 matrix[left][coloumn] = 0
             row = 3
             coloumn += 1
+    elif direction == "q":
+        print("Goodbye !!!!")
+        os.sys.exit(0)
+    else:
+        print("*******Error input*******")
+        getchar(matrix) ## call himself 不知道这个有没有性能问题啊
 
 
 
 
-"""
-bug look like:
-input direction: w, UP; s, Down; d, Right; a, Left   a
-[8, 4, 0, 0]
-[4, 2, 0, 0]
-[8, 2, 0, 2]
-[4, 2, 0, 0]
-input direction: w, UP; s, Down; d, Right; a, Left   a
-Game is over
-"""
 
 # fill of bugs, Fix me
 def isOver(matrix):  ## Need fix the magic number
@@ -171,21 +169,27 @@ def isOver(matrix):  ## Need fix the magic number
 
 
 def insert(matrix):
-    # ExistZero = True ## the matrix exist zero items
-    # for row in range(0,4): # not the range(0,3)
-        # for coloumn in range(0,4):
-            # if matrix[row][coloumn] == 0:
-                # ExistZero = True
-                # break
-            # ExistZero = False
-    # if ExistZero == False:
-        # return None
+    ExistZero = False ## the matrix exist zero items
+    for row in range(0,4): # not the range(0,3)
+        for coloumn in range(0,4):
+            if matrix[row][coloumn] == 0:
+                ExistZero = True
+                break
+        if ExistZero == True:
+            break
+    if ExistZero == False:
+        print("Full of Num")
+        return None
     x = random.randint(0,3)
     y = random.randint(0,3)
+    two_or_four = random.randint(0,2)
     while matrix[x][y] != 0: ## 如何数组满了的话，这个不就是死循环了吗
         x = random.randint(0,3)
         y = random.randint(0,3)
-    matrix[x][y] = 2
+    if two_or_four == 1:
+        matrix[x][y] = 2
+    else:
+        matrix[x][y] = 4
 
 def display(matrix):
     for row in range(0,4):
@@ -223,10 +227,12 @@ def play():
         display(matrix)
         getchar(matrix)
         insert(matrix)
+    display() ## display the last one
 
     print("Game is over")
 
-play()
+if __name__ == "__main__":
+    play()
 
 
 
