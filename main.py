@@ -189,7 +189,12 @@ def insert(matrix):
 
 def display(matrix):
     for row in range(0,4):
-        print(matrix[row])
+        print(" +++++++++++++++++")
+        for coloumn in range(0,4):
+            print(" +", matrix[row][coloumn],end="")
+        print(" + ")
+    print(" +++++++++++++++++")
+
 
 def play():
     """
